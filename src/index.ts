@@ -1,52 +1,69 @@
-import { nodeF, view } from './v' //框架
-import { h, t } from './v-dom' //基本 html svg text 组件
-
+import { nodeF, view } from './v'
+import { h, t } from './v-dom'
 import './index.css'
 
-const div = h.div({})
-
-const item = nodeF<string>(v => {
-    const refresh = view()
-    let s = 'item itemA'
-
-    v.nodeRefresh = () => refresh(
-        h.div({ class: s })([
-            h.p({})([t(v.props)])
-        ])
-    )
-
-    setTimeout(() => {
-        s = 'item itemB'
-        v.nodeRefresh()
-    }, 10)
-
-})
-
 const App = nodeF<null>(v => {
-    let n = 0
-    const arr = ['0']
+
+    let newTodo = ''
+    let arr = [{
+        content: '111',
+        checked: false
+    }]
+
     const refresh = view()
 
-    const addItem = () => {
-        n++
-        arr.push(n.toString(16))
+    const addItem = (content: string) => {
+        if (content != '') {
+            newTodo = ''
+            arr.push({ content, checked: false })
+            v.nodeRefresh()
+        }
+    }
+
+    const toggleItem = (n: number) => {
+        arr[n].checked = !arr[n].checked
         v.nodeRefresh()
     }
 
-    const removeItem = () => {
-        arr.splice(Math.floor(Math.random() * arr.length), 1)
+    const removeItem = (n: number) => {
+        arr.splice(n, 1)
         v.nodeRefresh()
     }
 
     v.nodeRefresh = () => refresh(
-        div([
-            h.button({ onclick: addItem })([t`add`]),
-            h.button({ onclick: removeItem })([t`remove`]),
-            div(arr.map(item))
+        h.div({})([
+            h.div({ class: 'header' })([
+                h.div({ class: 'headerTitle' })([t`todo list`]),
+                h.input({
+                    class: 'textInput',
+                    placeholder: 'Title...',
+                    value: newTodo,
+                    oninput: (e, el) => newTodo = el.value,
+                    onkeydown: e => {
+                        if (e.keyCode == 13) addItem(newTodo)
+                    }
+                })
+            ]),
+            h.div({ class: 'list' })(
+                arr.map((v, i) =>
+                    h.div({
+                        class: v.checked ? 'item checked' : 'item',
+                        onclick: () => toggleItem(i)
+                    })([
+                        t(v.content),
+                        h.div({
+                            class: 'close',
+                            onclick: (e, el) => {
+                                e.stopPropagation()
+                                removeItem(i)
+                            }
+                        })([t('\u00D7')])
+                    ]))
+            )
         ])
     )
-})
 
+})
 
 const node = view()(App(null))
 if (node) document.body.appendChild(node)

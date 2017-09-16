@@ -89,10 +89,10 @@ export const h: {
     //
     br: (p: { style?: Style, class?: string }) => NodeData
     hr: (p: { style?: Style, class?: string }) => NodeData
-    input: (p: { style?: Style, class?: string }) => NodeData
+    input: (p: { onkeydown: (e: KeyboardEvent, el: HTMLInputElement) => void, oninput?: (e: Event, el: HTMLInputElement) => void, value?: string, placeholder?: string, style?: Style, class?: string }) => NodeData
     //
     body: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    div: (p: { innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
+    div: (p: { onclick?: (e: MouseEvent, el: HTMLDivElement) => void, innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     canvas: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     iframe: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     label: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
@@ -105,9 +105,9 @@ export const h: {
     h5: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     h6: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     footer: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    span: (p: { innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
+    span: (p: { onclick?: (e: MouseEvent, el: HTMLSpanElement) => void, innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     ul: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    li: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
+    li: (p: { onclick?: (e: MouseEvent, el: HTMLLIElement) => void, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     button: (p: { onclick?: () => void, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     a: (p: { href?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
     p: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
