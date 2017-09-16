@@ -22,11 +22,6 @@ export const createNodeOpCmd = (node: Node) => ({
     },
     remove: (n: Node) => {
         node.removeChild(n)
-    },
-    removeAll: () => {
-        while (node.childNodes.length > 0) {
-            node.removeChild(node.childNodes[0])
-        }
     }
 })
 

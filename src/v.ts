@@ -83,7 +83,6 @@ export const view = () => {
 }
 
 export type NodeOpCmd = {
-    removeAll(): void
     add(n: Node, index?: number): void
     remove(n: Node): void
 }
@@ -98,8 +97,6 @@ export const viewList = (nodeOpCmd: NodeOpCmd) => {
     }[]
 
     return (arr: NodeData[] = emptyArray) => {
-        nodeOpCmd.removeAll()
-
         let old = oldArr
         oldArr = []
 
@@ -109,7 +106,7 @@ export const viewList = (nodeOpCmd: NodeOpCmd) => {
             let vf = index == -1 ? view() : old[index].vf
             let node = vf(v)
 
-            if (node != null) {
+            if (index == -1 && node != null) {
                 nodeOpCmd.add(node)
             }
             if (index != -1) {
@@ -122,7 +119,10 @@ export const viewList = (nodeOpCmd: NodeOpCmd) => {
         })
 
         //destroy
-        old.forEach(v => v.vf())
+        old.forEach(v => {
+            nodeOpCmd.remove(v.vf(v.nodeData) as Node)
+            v.vf()
+        })
 
     }
 }
