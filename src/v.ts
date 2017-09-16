@@ -6,7 +6,7 @@ export type NodeLifeCycleFunc<P> = (v: NodeLifeCycle<P>) => void
 
 export type NodeLifeCycle<P> = {
     props: P
-    children: NodeData[]
+    children: NodeData | NodeData[]
     nodeRefresh: () => Node | null
     nodeDestroy: () => void
     childrenRefresh: () => void
@@ -15,7 +15,7 @@ export type NodeLifeCycle<P> = {
 
 export type NodeData = {
     props: any
-    children: NodeData[]
+    children: NodeData | NodeData[]
     func: NodeLifeCycleFunc<any>
     //key
 }
@@ -24,7 +24,7 @@ export type NodeData = {
 const emptyArray: any[] = []
 const emptyFunc = () => null
 
-export const node = <P>(func: NodeLifeCycleFunc<P>) => (props: P) => (children: NodeData[] = emptyArray) => (<NodeData>{ func, props, children })
+export const node = <P>(func: NodeLifeCycleFunc<P>) => (props: P) => (children: NodeData | NodeData[] = emptyArray) => (<NodeData>{ func, props, children })
 
 export const nodeF = <P>(func: NodeLifeCycleFunc<P>) => (props: P) => (<NodeData>{ func, props, children: emptyArray })
 
@@ -96,9 +96,11 @@ export const viewList = (nodeOpCmd: NodeOpCmd) => {
         vf: (data?: NodeData | undefined) => Node | null
     }[]
 
-    return (arr: NodeData[] = emptyArray) => {
+    return (children: NodeData | NodeData[] = emptyArray) => {
         let old = oldArr
         oldArr = []
+
+        let arr = (children instanceof Array) ? children : [children]
 
         //create new
         arr.forEach((v, i) => {

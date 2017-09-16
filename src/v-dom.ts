@@ -91,34 +91,34 @@ export const h: {
     hr: (p: { style?: Style, class?: string }) => NodeData
     input: (p: { onkeydown: (e: KeyboardEvent, el: HTMLInputElement) => void, oninput?: (e: Event, el: HTMLInputElement) => void, value?: string, placeholder?: string, style?: Style, class?: string }) => NodeData
     //
-    body: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    div: (p: { onclick?: (e: MouseEvent, el: HTMLDivElement) => void, innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    canvas: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    iframe: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    label: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    section: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    header: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    h1: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    h2: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    h3: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    h4: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    h5: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    h6: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    footer: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    span: (p: { onclick?: (e: MouseEvent, el: HTMLSpanElement) => void, innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    ul: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    li: (p: { onclick?: (e: MouseEvent, el: HTMLLIElement) => void, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    button: (p: { onclick?: () => void, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    a: (p: { href?: string, style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    p: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    strong: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    select: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    option: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
+    body: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    div: (p: { onclick?: (e: MouseEvent, el: HTMLDivElement) => void, innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    canvas: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    iframe: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    label: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    section: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    header: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    h1: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    h2: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    h3: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    h4: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    h5: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    h6: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    footer: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    span: (p: { onclick?: (e: MouseEvent, el: HTMLSpanElement) => void, innerHTML?: string, style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    ul: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    li: (p: { onclick?: (e: MouseEvent, el: HTMLLIElement) => void, style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    button: (p: { onclick?: () => void, style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    a: (p: { href?: string, style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    p: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    strong: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    select: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    option: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
 } = {} as any
 
 export const s: {
-    svg: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
-    polygon: (p: { style?: Style, class?: string }) => (c?: NodeData[]) => NodeData
+    svg: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
+    polygon: (p: { style?: Style, class?: string }) => (c?: NodeData | NodeData[]) => NodeData
 } = {} as any
 
 'br|input|img|hr'

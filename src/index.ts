@@ -33,7 +33,7 @@ const App = nodeF<null>(v => {
     v.nodeRefresh = () => refresh(
         h.div({})([
             h.div({ class: 'header' })([
-                h.div({ class: 'headerTitle' })([t`todo list`]),
+                h.div({ class: 'headerTitle' })(t`todo list`),
                 h.input({
                     class: 'textInput',
                     placeholder: 'Title...',
@@ -57,7 +57,7 @@ const App = nodeF<null>(v => {
                                 e.stopPropagation()
                                 removeItem(i)
                             }
-                        })([t('\u00D7')])
+                        })(t`×`)
                     ]))
             )
         ])
