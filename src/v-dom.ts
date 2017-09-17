@@ -54,7 +54,7 @@ const diffNodeProps = (node: HTMLElement | SVGElement, oldProps: any, newProps: 
             //diff event
             node[key] = (e: any) => value(e, node)
         } else if (key == 'style') {
-            elSetStyle(node, null, value)
+            elSetStyle(node, value)
         } else if (key == 'dataset') {
             diffDataSet(node, null, value)
         } else {
