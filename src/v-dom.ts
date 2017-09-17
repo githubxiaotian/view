@@ -1,16 +1,31 @@
 
-import { node, nodeF, NodeData, NodeLifeCycle, viewList } from './v'
+import { node, nodeF, NodeLifeCycleFunc, NodeData, NodeLifeCycle, viewList } from './v'
 
-//text
-export const t = nodeF<TemplateStringsArray | string | number>(
-    v => {
-        const node = document.createTextNode('')
-        v.nodeRefresh = () => {
-            node.textContent = v.props.toString()
-            return node
-        }
+const textFunc: NodeLifeCycleFunc<string> = v => {
+    const node = document.createTextNode('')
+    v.nodeRefresh = () => {
+        node.textContent = v.props
+        return node
     }
-)
+}
+
+const emptyArray: any[] = []
+
+export const t: {
+    (v: string): NodeData
+    (v: number): NodeData
+    (v: TemplateStringsArray, ...c: any[]): NodeData
+} = (v: any, ...c: any[]) => {
+    let props = ''
+    if (typeof v == 'string') props = v
+    if (typeof v == 'number') props = String(v)
+    if (typeof v == 'object') props = String.raw(v, ...c)
+    return {
+        props,
+        children: emptyArray,
+        func: textFunc
+    }
+}
 
 export const createNodeOpCmd = (node: Node) => ({
     add: (n: Node, index?: number) => {

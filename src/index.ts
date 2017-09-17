@@ -53,7 +53,7 @@ const App = nodeF<null>(v => {
                         t(v.content),
                         h.div({
                             class: 'close',
-                            onclick: (e, el) => {
+                            onclick: e => {
                                 e.stopPropagation()
                                 removeItem(i)
                             }
