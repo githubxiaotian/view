@@ -25,18 +25,11 @@ export const createNodeOpCmd = (node: Node) => ({
     }
 })
 
-export type Style = string | Partial<CSSStyleDeclaration> | null
+export type Style = Partial<CSSStyleDeclaration> | null
 
-export const diffStyle = (el: HTMLElement | SVGElement, oldStyle: Style, newStyle: Style) => {
-    if (typeof newStyle == 'string') {
-        //el.style.cssText
-        el.setAttribute('style', newStyle)
-    } else if (newStyle == null) {
-        //el.style.cssText
-        el.removeAttribute('style')
-    } else {
-        //el.style.cssText
-        el.removeAttribute('style')
+export const elSetStyle = (el: HTMLElement | SVGElement, newStyle: Style) => {
+    el.removeAttribute('style')
+    if (newStyle != null) {
         for (const k in newStyle) {
             if (newStyle[k] != null) {
                 el.style[k] = newStyle[k]
@@ -61,7 +54,7 @@ const diffNodeProps = (node: HTMLElement | SVGElement, oldProps: any, newProps: 
             //diff event
             node[key] = (e: any) => value(e, node)
         } else if (key == 'style') {
-            diffStyle(node, null, value)
+            elSetStyle(node, null, value)
         } else if (key == 'dataset') {
             diffDataSet(node, null, value)
         } else {
