@@ -1,5 +1,7 @@
 
-import { node, nodeF, NodeLifeCycleFunc, NodeData, NodeLifeCycle, viewList } from './v'
+import { node, nodeF, NodeLifeCycleFunc, NodeData, viewList } from './v'
+
+//___________________________Text___________________________
 
 const textFunc: NodeLifeCycleFunc<string> = v => {
     const node = document.createTextNode('')
@@ -27,6 +29,8 @@ export const t: {
     }
 }
 
+
+//___________________________HTML & SVG___________________________
 export const createNodeOpCmd = (node: Node) => ({
     add: (n: Node, index?: number) => {
         if (index == null || index == node.childNodes.length) {
@@ -79,20 +83,6 @@ const diffNodeProps = (node: HTMLElement | SVGElement, oldProps: any, newProps: 
     }
 }
 
-const __ = (nodeFunc: () => HTMLElement | SVGElement) => (v: NodeLifeCycle<any>) => {
-    const node = nodeFunc()
-
-    const vl = viewList(createNodeOpCmd(node))
-
-    v.nodeRefresh = () => {
-        diffNodeProps(node, {}, v.props)//<--------------
-        return node
-    }
-
-    v.childrenRefresh = () => vl(v.children)
-    v.childrenDestroy = vl
-}
-
 export const h: {
     //
     br: (p: { style?: Style, class?: string }) => NodeData
@@ -131,18 +121,42 @@ export const s: {
 
 'br|input|img|hr'
     .split('|')
-    .forEach(v =>
-        h[v] = nodeF(__(() => document.createElement(v)))
+    .forEach(tag =>
+        h[tag] = nodeF(v => {
+            const node = document.createElement(tag)
+            v.nodeRefresh = () => {
+                diffNodeProps(node, {}, v.props)
+                return node
+            }
+        })
     )
 
 'body|div|canvas|iframe|label|section|header|h1|h2|h3|h4|h5|h6|footer|span|ul|li|button|a|p|strong|select|option'
     .split('|')
-    .forEach(v =>
-        h[v] = node(__(() => document.createElement(v)))
+    .forEach(tag =>
+        h[tag] = node(v => {
+            const node = document.createElement(tag)
+            const vl = viewList(createNodeOpCmd(node))
+            v.nodeRefresh = () => {
+                diffNodeProps(node, {}, v.props)//<--------------
+                return node
+            }
+            v.childrenRefresh = () => vl(v.children)
+            v.childrenDestroy = vl
+        })
     )
 
 'svg|polygon'
     .split('|')
-    .forEach(v =>
-        s[v] = node(__(() => document.createElementNS('http://www.w3.org/2000/svg', v)))
+    .forEach(tag =>
+        s[tag] = node(v => {
+            const node = document.createElementNS('http://www.w3.org/2000/svg', tag)
+            const vl = viewList(createNodeOpCmd(node))
+            v.nodeRefresh = () => {
+                diffNodeProps(node, {}, v.props)//<--------------
+                return node
+            }
+            v.childrenRefresh = () => vl(v.children)
+            v.childrenDestroy = vl
+        })
     )
