@@ -2,6 +2,47 @@ import { nodeF, view } from './v'
 import { h, t } from './v-dom'
 import './index.css'
 
+const Main = h.div({})
+
+const Header = h.div({ class: 'header' })
+
+const HeaderTitle = h.div({ class: 'headerTitle' })
+
+const HeaderInput = (p: {
+    value: string
+    onInput: (value: string) => void
+    onAdd: (value: string) => void
+}) => h.input({
+    class: 'textInput',
+    placeholder: 'Title...',
+    value: p.value,
+    oninput: (e, el) => p.onInput(el.value),
+    onkeydown: (e, el) => {
+        if (e.keyCode == 13) p.onAdd(el.value)
+    }
+})
+
+const List = h.div({ class: 'list' })
+
+const ListItem = (p: {
+    content: string
+    checked: boolean
+    onToggle: () => void
+    onClose: () => void
+}) => h.div({
+    class: p.checked ? 'item checked' : 'item',
+    onclick: p.onToggle
+})([
+    t(p.content),
+    h.div({
+        class: 'close',
+        onclick: e => {
+            e.stopPropagation()
+            p.onClose()
+        }
+    })(t`×`)
+])
+
 const App = nodeF<null>(v => {
 
     let newTodo = ''
@@ -12,6 +53,8 @@ const App = nodeF<null>(v => {
 
     const refresh = view()
 
+    const onInput = (content: string) => newTodo = content
+
     const addItem = (content: string) => {
         if (content != '') {
             newTodo = ''
@@ -20,48 +63,35 @@ const App = nodeF<null>(v => {
         }
     }
 
-    const toggleItem = (n: number) => {
+    const toggleItem = (n: number) => () => {
         arr[n].checked = !arr[n].checked
         v.nodeRefresh()
     }
 
-    const removeItem = (n: number) => {
+    const removeItem = (n: number) => () => {
         arr.splice(n, 1)
         v.nodeRefresh()
     }
 
     v.nodeRefresh = () => refresh(
-        h.div({})([
-            h.div({ class: 'header' })([
-                h.div({ class: 'headerTitle' })(t`todo list`),
-                h.input({
-                    class: 'textInput',
-                    placeholder: 'Title...',
+        Main([
+            Header([
+                HeaderTitle(t`todo list`),
+                HeaderInput({
                     value: newTodo,
-                    oninput: (e, el) => newTodo = el.value,
-                    onkeydown: e => {
-                        if (e.keyCode == 13) addItem(newTodo)
-                    }
+                    onInput: onInput,
+                    onAdd: addItem
                 })
             ]),
-            h.div({ class: 'list' })(
-                arr.map((v, i) =>
-                    h.div({
-                        class: v.checked ? 'item checked' : 'item',
-                        onclick: () => toggleItem(i)
-                    })([
-                        t(v.content),
-                        h.div({
-                            class: 'close',
-                            onclick: e => {
-                                e.stopPropagation()
-                                removeItem(i)
-                            }
-                        })(t`×`)
-                    ]))
-            )
+            List(arr.map((v, i) => ListItem({
+                checked: v.checked,
+                content: v.content,
+                onToggle: toggleItem(i),
+                onClose: removeItem(i)
+            })))
         ])
     )
+
 
 })
 
